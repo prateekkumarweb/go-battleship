@@ -377,8 +377,8 @@ type Message struct {
 }
 
 func HandleClient(c *websocket.Conn) {
-  uuidv4, _ := uuid.NewV4()
-  id := uuidv4.String()
+	uuidv4, _ := uuid.NewV4()
+	id := uuidv4.String()
 	fmt.Printf("%s ID %s connected.\n", time.Now().String(), id)
 
 	players[id] = c
@@ -505,7 +505,9 @@ func leaveGame(id string) {
 	if users[id].inGame != nil {
 		fmt.Printf("%s ID %s left game ID %s", time.Now().String(), id, users[id].inGame.Id)
 
-		jsonb, _ := json.Marshal(struct{Message string `json:"message"`}{"Opponent has left the game"})
+		jsonb, _ := json.Marshal(struct {
+			Message string `json:"message"`
+		}{"Opponent has left the game"})
 		if users[id].player == 0 {
 			players[users[id].inGame.Players[1].Id].WriteJSON(Message{"notification", string(jsonb)})
 		} else {
