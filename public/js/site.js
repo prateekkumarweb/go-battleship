@@ -1,4 +1,10 @@
-var socket = new WebSocket("ws://"+document.location.host+"/ws");
+var socketProtocol = "ws:"
+
+if (document.location.protocol == "https:") {
+  socketProtocol = "wss:"
+}
+
+var socket = new WebSocket(socketProtocol+"//"+document.location.host+"/ws");
 
 $(function() {
   /**
