@@ -2,13 +2,14 @@ package main
 
 import (
 	"encoding/json"
-	"flag"
 	"fmt"
 	"github.com/gorilla/websocket"
 	"github.com/satori/go.uuid"
+	"log"
 	"math"
 	"math/rand"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 )
@@ -341,8 +342,10 @@ var waiting []string
 var gameIdCounter int = 1
 
 func main() {
-	port := flag.String("http", ":8000", "Port on which server should run")
-	flag.Parse()
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
 
 	players = make(map[string]*websocket.Conn)
 	users = make(map[string]struct {
@@ -368,7 +371,7 @@ func main() {
 
 	http.Handle("/", http.FileServer(http.Dir("./public")))
 
-	http.ListenAndServe(*port, nil)
+	http.ListenAndServe(":"+port, nil)
 }
 
 type Message struct {
