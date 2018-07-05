@@ -377,7 +377,8 @@ type Message struct {
 }
 
 func HandleClient(c *websocket.Conn) {
-	id := uuid.NewV4().String()
+  uuidv4, _ := uuid.NewV4()
+  id := uuidv4.String()
 	fmt.Printf("%s ID %s connected.\n", time.Now().String(), id)
 
 	players[id] = c
